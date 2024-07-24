@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <div id="countdown"></div>
+        <div id="countdown" class="countdown"></div>
         <button onclick="testAnimation()">Test Animation</button>
         <div class="animation-end" id="animation-end">
             <p>Countdown Complete!</p>
@@ -21,10 +21,17 @@
         </div>
     </div>
     <div class="plane-animation">
-<img src="Turkish_plane1.png" alt=""  height="100" viewBox="0 0 24 24">
+        <img src="Turkish_plane1.png" alt="Turkish Plane" height="100">
     </div>
-    <script>
-// script.js
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="memory"></p>
+            <img id="rewardImage" src="" alt="Reward Image" height="100">
+        </div>
+    </div>
+    <div id="confetti-container"></div>
+    <script>// script.js
 
 // Countdown Timer
 const countdown = document.getElementById('countdown');
@@ -47,12 +54,14 @@ const x = setInterval(function() {
         countdown.innerHTML = "EXPIRED";
         endAnimation.style.display = 'block';
         endAnimation.classList.add('end-animation');
+        startConfetti();
     }
 }, 1000);
 
 function testAnimation() {
     endAnimation.style.display = 'block';
     endAnimation.classList.add('end-animation');
+    startConfetti();
 }
 
 // Daily Fact about Turkey
@@ -175,16 +184,23 @@ window.onload = () => {
     }
 };
 
-    </script>
+function startConfetti() {
+    const confettiContainer = document.getElementById('confetti-container');
+    for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.setProperty('--confetti-color', getRandomColor());
+        confettiContainer.appendChild(confetti);
+    }
+}
+
+function getRandomColor() {
+    const colors = ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7'];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
 
 
 
