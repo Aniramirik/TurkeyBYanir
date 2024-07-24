@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer with Advent Calendar</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div id="countdown"></div>
+        <button onclick="testAnimation()">Test Animation</button>
+        <div class="animation-end" id="animation-end">
+            <p>Countdown Complete!</p>
+        </div>
+        <div class="daily-fact" id="daily-fact"></div>
+        <div id="reward-display" class="reward-display"></div>
+        <div class="password-container">
+            <input type="password" id="adminPassword" placeholder="Enter password to unlock">
+            <button onclick="setAdminMode()">Unlock</button>
+        </div>
+    </div>
+    <div class="plane-animation">
+<img src="Turkish_plane1.png" alt=""  height="100" viewBox="0 0 24 24">
+    </div>
+    <div class="map-container">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d64429.43599754413!2d30.476250517614892!3d36.50135188320317!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c37f7a905d9e3f%3A0x21c8a1c9d0037b4d!2sRixos%20Premium%20Tekirova!5e0!3m2!1sen!2str!4v1690281490164!5m2!1sen!2str&markers=color:red%7Clabel:%7C36.50135188320317,30.476250517614892"
+            width="600"
+            height="450"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+    <div class="calendar">
+        <!-- Create 16 boxes for the calendar -->
+        <div class="day" data-day="1">1</div>
+        <div class="day" data-day="2">2</div>
+        <div class="day" data-day="3">3</div>
+        <div class="day" data-day="4">4</div>
+        <div class="day" data-day="5">5</div>
+        <div class="day" data-day="6">6</div>
+        <div class="day" data-day="7">7</div>
+        <div class="day" data-day="8">8</div>
+        <div class="day" data-day="9">9</div>
+        <div class="day" data-day="10">10</div>
+        <div class="day" data-day="11">11</div>
+        <div class="day" data-day="12">12</div>
+        <div class="day" data-day="13">13</div>
+        <div class="day" data-day="14">14</div>
+        <div class="day" data-day="15">15</div>
+        <div class="day" data-day="16">16</div>
+    </div>
+
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p id="memory"></p>
+            <img id="rewardImage" src="" alt="Reward Image" />
+        </div>
+    </div>
+
+    <script>
+        // Countdown Timer
+        const countdown = document.getElementById('countdown');
+        const endAnimation = document.getElementById('animation-end');
+        const countDownDate = new Date("Aug 9, 2024 08:00:00").getTime();
+
+        const x = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countDownDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (distance < 0) {
+                clearInterval(x);
+                countdown.innerHTML = "EXPIRED";
+                endAnimation.style.display = 'block';
+                endAnimation.classList.add('end-animation');
+            }
+        }, 1000);
+
+        function testAnimation() {
+            endAnimation.style.display = 'block';
+            endAnimation.classList.add('end-animation');
+        }
+
+        // Daily Fact about Turkey
+        const facts = [
+            "Turkey is home to the ancient city of Troy.",
+            "The country has over 82,000 mosques.",
+            "Turkish Delight, known as Lokum, is a popular sweet treat.",
+            "The Grand Bazaar in Istanbul is one of the oldest and largest covered markets in the world.",
+            "Hagia Sophia was once a cathedral, then a mosque, and is now a museum.",
+            "Tulips were introduced to Europe from Turkey.",
+            "The country spans two continents: Europe and Asia.",
+            "Turkey is the largest producer of hazelnuts in the world.",
+            "Pamukkale's thermal pools are a natural wonder in Turkey.",
+            "Mount Ararat is believed to be the resting place of Noah's Ark.",
+            "The Temple of Artemis in Turkey is one of the Seven Wonders of the Ancient World.",
+            "Turkey has one of the world's oldest and biggest malls, the Grand Bazaar, built in 1455.",
+            "Ankara is the capital city of Turkey, not Istanbul.",
+            "Turkey is known for its rich and diverse cuisine, including dishes like kebabs, baklava, and mezes.",
+            "The Library of Celsus in Ephesus was one of the largest libraries of the ancient world.",
+            "Turkey has a unique and diverse ecosystem with more than 10,000 plant species."
+        ];
+
+        function showDailyFact() {
+            const factElement = document.getElementById('daily-fact');
+            const today = new Date();
+            const factIndex = today.getDate() % facts.length;
+            factElement.innerHTML = `Daily Fact: ${facts[factIndex]}`;
+        }
+
+        showDailyFact();
+
+        // Advent Calendar Memories
+        const memories = [
+            "Visited the Blue Mosque in Istanbul.",
+            "Relaxed on the beaches of Antalya.",
+            "Tasted delicious Turkish cuisine.",
+            "Visited the historic Hagia Sophia.",
+            "Shopped at the Grand Bazaar.",
+            "Enjoyed Turkish tea and coffee.",
+            "Walked through the streets of Antalya.",
+            "Visited the Antalya old town.",
+            "On the 16th, we were at Rixos Premium Tekirova.",
+            "On the 15th, we were at the airport.",
+            "On the 23rd, we were in Istanbul.",
+            "On the 26th, we were in Casablanca.",
+            "On the 24th, we did the Istanbul tour.",
+            "On the 21st, we did scuba diving.",
+            "Visited the Antalya Aquarium.",
+            "Walked along Istiklal Avenue."
+        ];
+
+        const rewards = [
+            { name: "EYE", rarity: "Rare", image: "Evil-eye-580x386.jpg" },
+            { name: "Blue mosque", rarity: "Uncommon", image: "4014051.png" },
+            { name: "turkish Hairlines", rarity: "Common", image: "anir (1).svg" },
+            { name: "ANIR", rarity: "Very Rare", image: "Turkish (2).svg" },
+        ];
+
+        let adminMode = false;
+
+        function setAdminMode() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === 'ANIR') {  // Replace 'yourpassword' with your desired password
+                adminMode = true;
+                alert("Admin mode activated! You can now open as many days as you want.");
+            } else {
+                alert("Incorrect password!");
+            }
+        }
+
+        function getRandomReward() {
+            const randomIndex = Math.floor(Math.random() * rewards.length);
+            return rewards[randomIndex];
+        }
+
+        const days = document.querySelectorAll('.day');
+        days.forEach(day => {
+            day.addEventListener('click', () => {
+                const dayIndex = day.getAttribute('data-day') - 1;
+                const today = new Date().getDate();
+                const lastOpened = JSON.parse(localStorage.getItem('lastOpened')) || 0;
+
+                if (adminMode || (today === parseInt(day.getAttribute('data-day')) && lastOpened !== today)) {
+                    const reward = getRandomReward();
+                    document.getElementById('memory').innerText = memories[dayIndex];
+                    document.getElementById('rewardImage').src = reward.image;
+                    document.getElementById('rewardModal').style.display = "block";
+
+                    localStorage.setItem('reward', JSON.stringify(reward));
+                    localStorage.setItem('lastOpened', JSON.stringify(today));
+                } else {
+                    alert("You can only open one per day!");
+                }
+            });
+        });
+
+        // Get the modal
+        var modal = document.getElementById("rewardModal");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        window.onload = () => {
+            const savedReward = JSON.parse(localStorage.getItem('reward'));
+            if (savedReward) {
+                const rewardDisplay = document.getElementById('reward-display');
+                rewardDisplay.innerHTML = `You won: ${savedReward.name} (${savedReward.rarity})`;
+            }
+        };
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
